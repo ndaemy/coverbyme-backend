@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import mongoose, { Document, Schema } from 'mongoose';
 
 // mongoose does not suppoort TypeScript officially. Reference below.
@@ -31,10 +32,24 @@ UserSchema.methods.serialize = function () {
   return data;
 };
 
+UserSchema.methods.generateToken = function () {
+  if (!process.env.JWT_SECRET) {
+    console.error('JWT_SECRET not exist.');
+    return;
+  }
+
+  const token = jwt.sign({ _id: this._id, username: this.username }, process.env.JWT_SECRET, {
+    expiresIn: '7d',
+  });
+
+  return token;
+};
+
 export interface IUser extends IUserSchema {
   setPassword: (password: string) => Promise<void>;
   checkPassword: (password: string) => Promise<boolean>;
   serialize: () => Omit<IUserSchema, 'password'>;
+  generateToken: () => string | void;
 }
 
 const User = mongoose.model<IUser>('User', UserSchema);

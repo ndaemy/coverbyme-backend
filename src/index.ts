@@ -5,6 +5,7 @@ import Router from 'koa-router';
 import mongoose from 'mongoose';
 
 import api from './api';
+import jwtMiddleware from './lib/jwtMiddleware';
 
 // .env에서 환경 변수 가져오기
 dotenv.config();
@@ -32,6 +33,8 @@ router.use('/api', api.routes());
 
 // request의 body를 받기 위해서 bodyParser 추가
 app.use(bodyParser());
+
+app.use(jwtMiddleware);
 
 app.use(router.routes());
 
