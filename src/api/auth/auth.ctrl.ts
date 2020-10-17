@@ -38,6 +38,14 @@ export const register = async (ctx: RouterContext): Promise<void> => {
 
     // 비밀번호 빼고 응답
     ctx.body = user.serialize();
+
+    const token = user.generateToken();
+    if (!token) throw Error;
+
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      httpOnly: true,
+    });
   } catch (e) {
     ctx.throw(500, e);
   }
