@@ -21,7 +21,7 @@ interface IPostSchema extends Document {
 }
 
 PostSchema.methods.join = async function () {
-  const result = await this.populate('author', 'username').execPopulate();
+  const result = await this.populate('author', 'username');
   return result;
 };
 

@@ -1,10 +1,12 @@
 import Router from 'koa-router';
 
-import checkLoggedIn from '../../lib/checkLoggedIn';
-import * as postCtrl from './posts.ctrl';
+import { checkLoggedIn, checkObjectId } from '../../lib/checkMiddleware';
+import * as postsCtrl from './posts.ctrl';
 
 const posts = new Router();
 
-posts.post('/', checkLoggedIn, postCtrl.write);
+posts.get('/', postsCtrl.list);
+posts.post('/', checkLoggedIn, postsCtrl.write);
+posts.get('/:id', checkObjectId, postsCtrl.read);
 
 export default posts;

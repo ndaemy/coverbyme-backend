@@ -3,6 +3,17 @@ import { RouterContext } from 'koa-router';
 
 import Post from '../../model/post';
 
+// 전체 글 리스트 보기
+// GET /api/posts
+export const list = async (ctx: RouterContext): Promise<void> => {
+  try {
+    const posts = await Post.find().populate('author', 'username');
+    ctx.body = posts;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 // 글 작성
 // POST /api/posts
 export const write = async (ctx: RouterContext): Promise<void> => {
@@ -37,6 +48,24 @@ export const write = async (ctx: RouterContext): Promise<void> => {
     await post.save();
 
     ctx.body = await post.join();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+// 특정 글 보기
+// GET /api/posts/:id
+export const read = async (ctx: RouterContext): Promise<void> => {
+  const { id } = ctx.params;
+
+  try {
+    const post = await Post.findById(id).populate('author', 'username');
+    if (!post) {
+      ctx.status = 404; // Not found
+      return;
+    }
+
+    ctx.body = post;
   } catch (e) {
     ctx.throw(500, e);
   }
