@@ -67,9 +67,9 @@ export const login = async (ctx: RouterContext): Promise<void> => {
     const valid = await user?.checkPassword(password);
 
     // 해당 username을 가진 user가 존재하지 않거나
-    // 비밀번호가 일치하지 안ㄴㅎ으면
+    // 비밀번호가 일치하지 않으면
     if (!user || !valid) {
-      ctx.status = 401; // Unauthorized'
+      ctx.status = 401; // Unauthorized
       return;
     }
 

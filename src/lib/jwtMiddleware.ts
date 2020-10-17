@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Context, Next } from 'koa';
+
 import User from '../model/user';
 
 type DecodedJWT = {
