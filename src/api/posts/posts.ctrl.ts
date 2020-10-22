@@ -59,10 +59,47 @@ export const read = async (ctx: RouterContext): Promise<void> => {
   ctx.body = ctx.state.post;
 };
 
+// 특정 글 수정
+// PATCH /api/posts/:id
+export const update = async (ctx: RouterContext): Promise<void> => {
+  const { id } = ctx.params;
+
+  // request body 검증용 schema
+  const schema = Joi.object().keys({
+    title: Joi.string().min(4),
+    youtubeLink: Joi.string().uri(),
+    description: Joi.string(),
+    originalSinger: Joi.string(),
+    originalTitle: Joi.string(),
+  });
+
+  // 양식에 맞지 않으면 400: Bad request 에러
+  const result = schema.validate(ctx.request.body);
+  if (result.error) {
+    ctx.status = 400;
+    ctx.body = result.error;
+    return;
+  }
+
+  try {
+    const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
+      new: true,
+    });
+    if (!post) {
+      ctx.status = 404; // Not found
+      return;
+    }
+    ctx.body = post;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 // 특정 글 삭제
 // DELETE /api/posts/:id
 export const remove = async (ctx: RouterContext): Promise<void> => {
   const { id } = ctx.params;
+
   try {
     await Post.findByIdAndRemove(id);
     ctx.status = 204; // No content
