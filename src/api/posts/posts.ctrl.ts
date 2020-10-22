@@ -56,16 +56,16 @@ export const write = async (ctx: RouterContext): Promise<void> => {
 // 특정 글 보기
 // GET /api/posts/:id
 export const read = async (ctx: RouterContext): Promise<void> => {
+  ctx.body = ctx.state.post;
+};
+
+// 특정 글 삭제
+// DELETE /api/posts/:id
+export const remove = async (ctx: RouterContext): Promise<void> => {
   const { id } = ctx.params;
-
   try {
-    const post = await Post.findById(id).populate('author', 'username');
-    if (!post) {
-      ctx.status = 404; // Not found
-      return;
-    }
-
-    ctx.body = post;
+    await Post.findByIdAndRemove(id);
+    ctx.status = 204; // No content
   } catch (e) {
     ctx.throw(500, e);
   }
