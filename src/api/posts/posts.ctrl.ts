@@ -24,6 +24,7 @@ export const write = async (ctx: RouterContext): Promise<void> => {
     description: Joi.string(),
     originalSinger: Joi.string().required(),
     originalTitle: Joi.string().required(),
+    category: Joi.string().valid('vocal', 'guitar', 'bass', 'drum', 'piano', 'band').required(),
   });
 
   // 양식에 맞지 않으면 400: Bad request 에러
@@ -34,7 +35,7 @@ export const write = async (ctx: RouterContext): Promise<void> => {
     return;
   }
 
-  const { title, youtubeLink, description, originalSinger, originalTitle } = ctx.request.body;
+  const { title, youtubeLink, description, originalSinger, originalTitle, category } = ctx.request.body;
 
   try {
     const post = new Post({
@@ -43,6 +44,7 @@ export const write = async (ctx: RouterContext): Promise<void> => {
       description,
       originalSinger,
       originalTitle,
+      category,
       author: ctx.state.user._id,
     });
     await post.save();
@@ -71,6 +73,7 @@ export const update = async (ctx: RouterContext): Promise<void> => {
     description: Joi.string(),
     originalSinger: Joi.string(),
     originalTitle: Joi.string(),
+    category: Joi.string().valid('vocal', 'guitar', 'bass', 'drum', 'piano', 'band'),
   });
 
   // 양식에 맞지 않으면 400: Bad request 에러

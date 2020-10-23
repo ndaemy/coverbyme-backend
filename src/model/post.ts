@@ -6,6 +6,7 @@ const PostSchema = new Schema({
   description: String,
   originalSinger: String,
   originalTitle: String,
+  category: { type: String, enum: ['vocal', 'guitar', 'bass', 'drum', 'piano', 'band'] },
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now() },
 });
@@ -16,6 +17,7 @@ interface IPostSchema extends Document {
   description: string;
   originalSinger: string;
   originalTitle: string;
+  category: 'vocal' | 'guitar' | 'bass' | 'drum' | 'piano' | 'band';
   author: string;
   createdAt: Date;
 }
