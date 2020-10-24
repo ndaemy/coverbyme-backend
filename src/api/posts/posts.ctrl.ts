@@ -7,7 +7,7 @@ import Post from '../../model/post';
 // GET /api/posts
 export const list = async (ctx: RouterContext): Promise<void> => {
   try {
-    const posts = await Post.find().populate('author', 'username');
+    const posts = await Post.find().populate('author', 'username').sort({ createdAt: -1 });
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
