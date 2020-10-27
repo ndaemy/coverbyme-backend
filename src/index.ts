@@ -1,3 +1,4 @@
+import cors from '@koa/cors';
 import dotenv from 'dotenv';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
@@ -33,6 +34,8 @@ router.use('/api', api.routes());
 
 // request의 body를 받기 위해서 bodyParser 추가
 app.use(bodyParser());
+
+app.use(cors());
 
 app.use(jwtMiddleware);
 
