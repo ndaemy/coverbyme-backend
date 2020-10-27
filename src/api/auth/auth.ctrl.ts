@@ -46,6 +46,7 @@ export const register = async (ctx: RouterContext): Promise<void> => {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       httpOnly: true,
       sameSite: 'none',
+      secure: true,
     });
   } catch (e) {
     ctx.throw(500, e);
@@ -91,6 +92,7 @@ export const login = async (ctx: RouterContext): Promise<void> => {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
       httpOnly: true,
       sameSite: 'none',
+      secure: true,
     });
   } catch (e) {
     ctx.throw(500, e);
