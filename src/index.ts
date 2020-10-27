@@ -42,6 +42,8 @@ app.use(
   }),
 );
 
+app.proxy = true;
+
 app.use(jwtMiddleware);
 
 app.use(router.routes());
