@@ -44,7 +44,8 @@ export const register = async (ctx: RouterContext): Promise<void> => {
 
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-      httpOnly: false,
+      httpOnly: true,
+      sameSite: 'lax',
     });
   } catch (e) {
     ctx.throw(500, e);
@@ -88,7 +89,8 @@ export const login = async (ctx: RouterContext): Promise<void> => {
 
     ctx.cookies.set('access_token', token, {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-      httpOnly: false,
+      httpOnly: true,
+      sameSite: 'lax',
     });
   } catch (e) {
     ctx.throw(500, e);
