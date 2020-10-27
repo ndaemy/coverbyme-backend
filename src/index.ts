@@ -35,7 +35,12 @@ router.use('/api', api.routes());
 // request의 body를 받기 위해서 bodyParser 추가
 app.use(bodyParser());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://covered-by-me.netlify.app',
+    credentials: true,
+  }),
+);
 
 app.use(jwtMiddleware);
 
